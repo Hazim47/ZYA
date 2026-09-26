@@ -1,4 +1,4 @@
-# StyleHub – E-Commerce Clothing Platform
+# ZYA – E-Commerce Clothing Platform
 
 A full-stack e-commerce platform for a clothing store, built with React and Node.js.
 
@@ -27,7 +27,7 @@ A full-stack e-commerce platform for a clothing store, built with React and Node
 ## Project Structure
 
 ```text
-stylehub/
+ZYA/
 ├── frontend/   # Customer-facing application
 ├── admin/      # Admin dashboard
 ├── backend/    # REST API and database
