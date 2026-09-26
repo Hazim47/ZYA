@@ -11,31 +11,38 @@ const PORT = process.env.PORT || 5000;
 
 async function startServer() {
   try {
-    // اتصال قاعدة البيانات
+    // الاتصال بقاعدة البيانات
     await sequelize.authenticate();
 
     console.log("✅ Database Connected");
 
-    // مزامنة الجداول
-    await sequelize.sync();
-
-    console.log("✅ Database Synced");
-
-    // إنشاء الأدمن إذا غير موجود
-    await createAdmin();
+    // تشغيل السيرفر مباشرة
     app.get("/api/health", (req, res) => {
       res.status(200).json({
         status: "ok",
         message: "ZYA backend is running",
       });
     });
-    // تشغيل السيرفر
+
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });
-  } catch (error) {
-    console.error("❌ Server Error:", error);
 
+    // عمليات الخلفية
+    sequelize
+      .sync()
+      .then(() => {
+        console.log("✅ Database Synced");
+        return createAdmin();
+      })
+      .then(() => {
+        console.log("✅ Admin Ready");
+      })
+      .catch((error) => {
+        console.error("❌ Background DB Error:", error);
+      });
+  } catch (error) {
+    console.error("❌ Database Connection Error:", error);
     process.exit(1);
   }
 }
