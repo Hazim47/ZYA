@@ -22,7 +22,6 @@ export default function ProfileMenu() {
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
-
   const [confirmLogout, setConfirmLogout] = useState(false);
 
   const timer = useRef(null);
@@ -40,7 +39,6 @@ export default function ProfileMenu() {
       return JSON.parse(data);
     } catch {
       localStorage.removeItem("user");
-
       return null;
     }
   };
@@ -49,9 +47,7 @@ export default function ProfileMenu() {
 
   const logout = () => {
     localStorage.removeItem("token");
-
     localStorage.removeItem("user");
-
     window.location.reload();
   };
 
@@ -62,7 +58,6 @@ export default function ProfileMenu() {
       });
 
       localStorage.setItem("token", res.data.token);
-
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
       setOpen(false);
@@ -96,31 +91,29 @@ export default function ProfileMenu() {
         overflow: "visible",
       }}
     >
+      {/* PROFILE BUTTON */}
       <IconButton
         onClick={() => {
           setOpen((prev) => !prev);
         }}
         sx={{
           width: {
-            xs: 42,
-            md: 44,
+            xs: 40,
+            md: 42,
           },
 
           height: {
-            xs: 42,
-            md: 44,
+            xs: 40,
+            md: 42,
           },
 
           border: "1px solid #ddd",
-
           padding: 0,
-
           overflow: "hidden",
-
           transition: "0.3s",
 
           "&:hover": {
-            transform: "translateY(-3px)",
+            transform: "translateY(-2px)",
             background: "#000",
           },
         }}
@@ -136,27 +129,33 @@ export default function ProfileMenu() {
         ) : (
           <PersonOutlineOutlinedIcon
             sx={{
-              fontSize: 32,
+              fontSize: 30,
               color: "#000",
             }}
           />
         )}
       </IconButton>
 
+      {/* DROPDOWN */}
       {open && (
         <Paper
           elevation={15}
           sx={{
             position: "absolute",
-            top: { xs: "50px", md: "70px" },
+
+            top: {
+              xs: "48px",
+              md: "66px",
+            },
+
             insetInlineEnd: 0,
 
             width: {
-              xs: 260,
-              md: 290,
+              xs: 250,
+              md: 270,
             },
 
-            borderRadius: "25px",
+            borderRadius: "22px",
             overflow: "hidden",
 
             zIndex: 99999,
@@ -167,45 +166,44 @@ export default function ProfileMenu() {
         >
           {token ? (
             <>
+              {/* BLACK HEADER */}
               <Box
                 sx={{
                   background: "#000",
-
-                  height: 80,
+                  height: 72,
                 }}
               />
 
+              {/* USER INFO */}
               <Box
                 sx={{
-                  mt: -5,
-
+                  mt: -4.5,
                   textAlign: "center",
-
-                  px: 3,
+                  px: 2.5,
                 }}
               >
                 <Avatar
                   src={user?.picture}
                   sx={{
-                    width: 90,
-
-                    height: 90,
-
+                    width: 78,
+                    height: 78,
                     margin: "auto",
 
-                    border: "5px solid white",
+                    border: "4px solid white",
 
-                    boxShadow: "0 5px 20px #ccc",
+                    boxShadow: "0 5px 18px #ccc",
                   }}
                 />
 
                 <Typography
                   sx={{
-                    fontSize: 20,
-
+                    fontSize: 18,
                     fontWeight: 800,
+                    mt: 1.5,
 
-                    mt: 2,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
                   }}
                 >
                   {user?.name}
@@ -214,29 +212,32 @@ export default function ProfileMenu() {
                 <Typography
                   sx={{
                     color: "#777",
+                    fontSize: 12.5,
+                    mt: 0.4,
 
-                    fontSize: 14,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
 
-                    mt: 0.5,
+                    direction: "ltr",
                   }}
                 >
                   {user?.email}
                 </Typography>
               </Box>
 
-              <Divider sx={{ my: 2 }} />
+              <Divider sx={{ my: 1.5 }} />
 
+              {/* LOGOUT */}
               {confirmLogout ? (
                 <Box
                   sx={{
-                    px: 3,
-
-                    pb: 3,
-
+                    px: 2.5,
+                    pb: 2.5,
                     textAlign: "center",
                   }}
                 >
-                  <Typography fontWeight={700} mb={2}>
+                  <Typography fontWeight={700} fontSize={13.5} mb={1.5}>
                     {t("profile.logoutConfirm")}
                   </Typography>
 
@@ -245,11 +246,22 @@ export default function ProfileMenu() {
                     variant="contained"
                     onClick={logout}
                     sx={{
+                      minHeight: 36,
+                      px: 1.5,
+
                       borderRadius: 30,
 
                       background: "#000",
 
-                      mb: 1,
+                      fontSize: 12,
+                      fontWeight: 600,
+
+                      whiteSpace: "normal",
+                      lineHeight: 1.2,
+
+                      "&:hover": {
+                        background: "#222",
+                      },
                     }}
                   >
                     {t("profile.yesLogout")}
@@ -260,7 +272,18 @@ export default function ProfileMenu() {
                     variant="outlined"
                     onClick={() => setConfirmLogout(false)}
                     sx={{
+                      minHeight: 36,
+                      px: 1.5,
+
+                      mt: 0.8,
+
                       borderRadius: 30,
+
+                      fontSize: 12,
+                      fontWeight: 500,
+
+                      whiteSpace: "normal",
+                      lineHeight: 1.2,
                     }}
                   >
                     {t("profile.cancel")}
@@ -269,9 +292,8 @@ export default function ProfileMenu() {
               ) : (
                 <Box
                   sx={{
-                    px: 3,
-
-                    pb: 3,
+                    px: 2.5,
+                    pb: 2.5,
                   }}
                 >
                   <Button
@@ -279,9 +301,22 @@ export default function ProfileMenu() {
                     variant="contained"
                     onClick={() => setConfirmLogout(true)}
                     sx={{
+                      minHeight: 36,
+
+                      px: 1.5,
+
                       borderRadius: 30,
 
                       background: "#000",
+
+                      fontSize: 12,
+                      fontWeight: 600,
+
+                      // مهم للعربي والإنجليزي
+                      whiteSpace: "normal",
+                      overflow: "hidden",
+                      textOverflow: "clip",
+                      lineHeight: 1.25,
 
                       "&:hover": {
                         background: "#222",
@@ -296,16 +331,15 @@ export default function ProfileMenu() {
           ) : (
             <Box
               sx={{
-                p: 3,
-
+                p: 2.5,
                 textAlign: "center",
               }}
             >
-              <Typography fontWeight={800} fontSize={20} mb={1}>
+              <Typography fontWeight={800} fontSize={18} mb={0.8}>
                 {t("profile.welcome")}
               </Typography>
 
-              <Typography color="gray" mb={3}>
+              <Typography color="gray" fontSize={13} mb={2.5}>
                 {t("profile.loginMessage")}
               </Typography>
 
